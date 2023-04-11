@@ -5,56 +5,40 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flag Search</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Ramabhadra&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="flagsearch.css">
+    <title>Asynchronous</title>
 </head>
 
 <body>
-    <div id="wrapper">
-        <div id="box1">
-            <h1>Search All Country Falg</h1>
-            <input type="text" placeholder="Enter Country's Name">
-            <a href="">Search Flag</a>
-        </div>
-        <div id="box2"></div>
+
+    <div class="TOP">
+        <h1></h1>
+        <h2></h2>
     </div>
-
     <script>
+        fetch("https://randomuser.me/api")
+            .then((omi) => { return omi.json() })
+         .then((result) => {console.log(result);
+            show(result)})
+            // .then((result) => { name(result.results) })
 
-        const input = document.querySelector("input");
-        const anchorbutton = document.querySelector("a");
+        function show(params) {
+            let image = document.createElement("img");
+            image.src = params.results[0].picture.large;
+            document.querySelector(".TOP").append(image)
+
+            let name = document.createElement("h2");
+            name.innerHTML = params.results[0].name.first + " " + params.results[0].name.last;
+            document.querySelector(".TOP").append(name)
 
 
-        anchorbutton.onclick = ((e) => {
-            e.preventDefault()
-            const flagbox = document.querySelector("#box2");
-            flagbox.innerHTML = "";
+            let email = document.createElement("P");
+            email.innerHTML = params.results[0].email;
+            document.querySelector(".TOP").append(email)
 
-            fetch("https://flagcdn.com/en/codes.json")
-                .then((response) => { return response.json() })
-                .then((result) => {
-                    console.log(result);
-                    showflag(result)
-                })
-        })
-
-        function showflag(result) {
-            const flagname = input.value;
-            const flagCapitalize = flagname.charAt(0).toUpperCase() + flagname.slice(1).toLowerCase()
-            for (let [key, value] of Object.entries(result)) {
-                if (value === flagCapitalize) {
-                    const img = document.createElement("img");
-                    img.src = "https://flagcdn.com/160x120/" + ([key][0]) + ".png";
-                    document.querySelector("#box2").append(img);
-                }
-            }
+    
 
         }
-
     </script>
 </body>
 
-</html
+</html>
